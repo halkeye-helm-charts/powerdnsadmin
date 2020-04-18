@@ -33,34 +33,14 @@ spec:
           image: "{{ .Values.image.repository }}:{{ tpl .Values.image.tag . }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            - name: SQLA_DB_HOST
+            - name: SQLALCHEMY_DATABASE_URI
               valueFrom:
                 secretKeyRef:
                   name: {{ include "powerdnsadmin.fullname" . }}
-                  key: postgres_host
-            - name: SQLA_DB_PORT
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "powerdnsadmin.fullname" . }}
-                  key: postgres_port
-            - name: SQLA_DB_USER
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "powerdnsadmin.fullname" . }}
-                  key: postgres_username
-            - name: SQLA_DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "powerdnsadmin.fullname" . }}
-                  key: postgres_password
-            - name: SQLA_DB_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "powerdnsadmin.fullname" . }}
-                  key: postgres_database
+                  key: SQLALCHEMY_DATABASE_URI
           ports:
             - name: http
-              containerPort: 9191
+              containerPort: 80
               protocol: TCP
           livenessProbe:
             httpGet:
