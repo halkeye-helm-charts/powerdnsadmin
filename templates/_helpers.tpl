@@ -35,13 +35,20 @@ Create chart name and version as used by the chart label.
 Common labels
 */}}
 {{- define "powerdnsadmin.labels" -}}
-app.kubernetes.io/name: {{ include "powerdnsadmin.name" . }}
 helm.sh/chart: {{ include "powerdnsadmin.chart" . }}
-app.kubernetes.io/instance: {{ .Release.Name }}
+{{ include "powerdnsadmin.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
 app.kubernetes.io/managed-by: {{ .Release.Service }}
+{{- end -}}
+
+{{/*
+Selector labels
+*/}}
+{{- define "powerdnsadmin.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "powerdnsadmin.name" . }}
+app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end -}}
 
 {{/*
